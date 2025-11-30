@@ -1,79 +1,62 @@
-Agent Coco: The Autonomous Legacy Code Documentation Specialist
 
-Track: Enterprise Agents
+# Agent Coco: Codebase Documentation Generator
 
-Built with: Google Gemini 2.5 Flash Lite, Python
+This project utilizes a Google Generative AI model to act as 'Agent Coco', an expert Software Architect and Technical Writer. Agent Coco's primary function is to analyze codebases and generate comprehensive documentation, specifically a `README.md` file.
 
-1. Problem Statement
+## Features
 
-The "Legacy Code" Crisis
-In the enterprise world, legacy code is a massive liability. Critical business systems often run on code written years ago by developers who have since left the company.
+*   **Automated Documentation:** Generates `README.md` files based on codebase analysis.
+*   **Structured Agentic Process:** Follows a strict `EXPLORE -> READ -> WRITE` loop to minimize errors and hallucinations.
+*   **Codebase Exploration:** Uses `get_file_structure` to understand the project layout.
+*   **Selective File Reading:** Employs `read_file_content` to inspect relevant files, with security measures to prevent access to sensitive information (like `.env` files).
+*   **Error Handling & Fallbacks:** Includes fallbacks for the AI model and robust error handling for file operations.
+*   **Observability:** Logs agent actions (tool calls) to the console for transparency.
 
-The Pain: New developers spend an estimated 50-70% of their time just trying to understand existing code rather than building new features.
+## How to Run
 
-Why it matters: Writing documentation for old code is tedious and expensive. It is the task every developer delays, resulting in documentation that is either non-existent or dangerously outdated.
+1.  **Clone the repository:**
+    ```bash
+    git clone [repository-url]
+    cd [repository-name]
+    ```
+2.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Set up API Key:**
+    Create a `.env` file in the root directory and add your Google API Key:
+    ```
+    GOOGLE_API_KEY=your_api_key_here
+    ```
+4.  **Run the agent:**
+    ```bash
+    python main.py
+    ```
+5.  **Interact with Agent Coco:**
+    Follow the prompts in your terminal. For example, you can ask it to analyze the current directory and create a `README.md`.
 
-2. The Solution
+## File Structure
 
-Agent Coco is a secure, local-first AI agent designed to reverse-engineer documentation from raw source code. Unlike standard LLM summarizers, Coco uses a Sequential Multi-Agent Architecture with Tool Use.
+```
+./
+    .gitignore
+    main.py
+    README.md
+    requirements.txt
+    tools.py
+```
 
-The Explorer: Maps the dependency graph and identifies entry points without wasting tokens.
+*   `.gitignore`: Specifies intentionally untracked files that Git should ignore.
+*   `main.py`: The main script that initializes the AI agent, configures the API, and runs the interaction loop.
+*   `requirements.txt`: Lists the Python dependencies required to run the project.
+*   `tools.py`: Contains the Python functions that Agent Coco can call to interact with the file system (get file structure, read files, write documentation).
 
-The Analyst: Intelligently selects critical files to read in depth.
+## Agentic Workflow
 
-The Writer: Synthesizes information into professional documentation.
+Agent Coco operates using a sequential agent pattern enforced by its system instructions:
 
-3. Architecture & Tech Stack
+1.  **EXPLORE:** The agent first uses `get_file_structure` to map out the project directory.
+2.  **READ:** Based on the file structure, it intelligently selects key files (like `main.py`, `tools.py`) using `read_file_content` to understand their purpose and content.
+3.  **WRITE:** Finally, it synthesizes the gathered information to generate the `README.md` using `write_documentation`.
 
-The system utilizes a Sequential Multi-Agent Workflow powered by Gemini 2.5 Flash Lite:
-
-The Orchestrator: Manages the agent's lifecycle and tool connections (main.py).
-
-The Explorer Tool: Scans the directory securely (get_file_structure).
-
-The Analyst Tool: Reads critical files with security guardrails (read_file_content).
-
-The Writer Tool: Generates artifacts (write_documentation).
-
-Key Concepts Applied:
-
-Tool Use: Custom Python functions for secure File I/O.
-
-Context Engineering: "Context Compaction" strategy to minimize token usage.
-
-Observability: Real-time event logging of the agent's "thought process".
-
-4. How to Run
-
-Clone the repository:
-
-git clone [https://github.com/your-username/agent-coco.git](https://github.com/your-username/agent-coco.git)
-cd agent-coco
-
-
-Install dependencies:
-
-pip install -r requirements.txt
-
-
-Set up API Key:
-Create a .env file in the root directory:
-
-GOOGLE_API_KEY=your_gemini_api_key
-
-
-Run the Agent:
-
-python main.py
-
-
-Command:
-When prompted, type: Analyze the current directory.
-
-5. Future Improvements
-
-Visual Documentation: Adding a "Diagram Agent" with Mermaid.js support.
-
-CI/CD Integration: Deploying as a GitHub Action for automatic PR documentation.
-
-RAG Implementation: Adding a vector database for "Chat with Code" functionality.
+This structured approach ensures that the agent has a clear understanding of the codebase before generating documentation, leading to more accurate and relevant output.

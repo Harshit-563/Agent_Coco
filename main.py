@@ -44,7 +44,7 @@ except Exception as e:
     print(f"⚠️  Model Error: {e}")
     print("🔄 Switching to fallback model 'gemini-1.5-flash' for stability...")
     model = genai.GenerativeModel(
-        model_name="gemini-1.5-flash",
+        model_name="gemini-2.5-flash-lite",
         tools=tools,
         system_instruction=system_instruction
     )
