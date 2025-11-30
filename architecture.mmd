@@ -1,0 +1,47 @@
+flowchart TD
+  %% Styles
+  classDef ai fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b
+  classDef python fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#2e7d32
+  classDef storage fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#ef6c00
+  classDef user fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#7b1fa2
+
+  %% Nodes
+  User[User / Developer] -->|1. Analyze this folder| CLI[Terminal Interface]
+
+  subgraph LocalEnv[Local Execution Environment - Python]
+    CLI --> Orchestrator{Orchestrator - main.py}
+    subgraph Tools[Tool Belt - tools.py]
+      Tool_Explore[get_file_structure - Explorer]
+      Tool_Read[read_file_content - Analyst]
+      Tool_Write[write_documentation - Writer]
+    end
+  end
+
+  subgraph Cloud[Google Cloud AI]
+    Gemini[Gemini 2.5 Flash Lite - Reasoning Engine]
+  end
+
+  subgraph Target[Target System]
+    FileSystem[Legacy Codebase - Local Files]
+    Docs[README.md - Output]
+  end
+
+  %% Data flow
+  Orchestrator <-->|2. Send context / Receive commands| Gemini
+
+  Orchestrator -->|3. Auto-Execute| Tool_Explore
+  Tool_Explore -->|4. Scan Directory| FileSystem
+  FileSystem -->|5. Return File Tree| Tool_Explore
+
+  Orchestrator -->|6. Auto-Execute| Tool_Read
+  Tool_Read -->|7. Read Key Files| FileSystem
+  FileSystem -->|8. Return Code Context| Tool_Read
+
+  Orchestrator -->|9. Auto-Execute| Tool_Write
+  Tool_Write -->|10. Create Documentation| Docs
+
+  %% Classes
+  class Gemini ai
+  class Orchestrator,Tool_Explore,Tool_Read,Tool_Write python
+  class FileSystem,Docs storage
+  class User,CLI user
