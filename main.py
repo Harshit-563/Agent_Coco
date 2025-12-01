@@ -11,6 +11,10 @@ if not api_key:
     raise ValueError("CRITICAL: No API key found. Please check .env file.")
 
 genai.configure(api_key=api_key)
+# 🧠 DAY 3 CONCEPT: CONTEXT ENGINEERING & SESSIONS
+# We implement "Context Compaction" here. Instead of dumping all files into
+# the context window immediately (which is expensive and confusing), we enforce
+# a sequential loop: Explore (Low Token Cost) -> Read (High Token Cost).
 
 # --- CONTEXT ENGINEERING & PERSONA ---
 # We use a "Sequential Agent" pattern here. 
@@ -51,6 +55,10 @@ except Exception as e:
 
 def print_response(response):
     """
+    DAY 4 CONCEPT: AGENT QUALITY & OBSERVABILITY
+    This function implements Tracing. We intercept the model's response to see
+    if it is executing a tool (thinking) or speaking to the user.
+    This provides visibility into the agent's internal reasoning loop.
     OBSERVABILITY LAYER:
     This function intercepts the model's response to check if it's 'speaking' or 'acting'.
     If it calls a tool, we log it to the console so the user sees the agent's thought process.

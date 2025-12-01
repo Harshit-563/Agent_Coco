@@ -1,6 +1,10 @@
 import os
 
-# Debug note: Changed 'root_path' -> 'path'. 
+# DAY 2 CONCEPT: AGENT TOOLS
+# These functions define the "Action Space" for the agent.
+# By exposing these to the LLM, we transform it from a chatbot into an agent
+# capable of interacting with the local operating system.
+# # Debug note: Changed 'root_path' -> 'path'. 
 # Gemini kept throwing MALFORMED_FUNCTION_CALL errors because it guessed 'path' by default.
 def get_file_structure(path: str = ".") -> str:
     """
